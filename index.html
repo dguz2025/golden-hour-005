@@ -14,10 +14,11 @@
      GOLDEN HOUR 005 — FIRESIDE DECK (technical edition)
      Dakota Nunley × Tess Fenn · July 8, 2026 · Product.ai HQ
      ------------------------------------------------------------
-     7 slides · 16:9 · designed at 1920x1080, scaled to viewport.
+     11 slides · 16:9 · designed at 1920x1080, scaled to viewport.
      Navigation: → / ← / space / click. Print = one page per slide.
-     The deck goes DOWN during the two screenshare demos — slides
-     support the conversation (GH-002 law), they never carry it.
+     v4 run of show (KINN mirror, 2026-07-07): NO live demos — the
+     deck stays up as background support (GH-002 law: slides
+     support the conversation, they never carry it).
 
      Design system: GH-003 slide anatomy on the Product.ai brand
      drivers (v1.1), verification fixes from the 10-slide build
@@ -900,70 +901,40 @@
 
   /* context strip with an emphasized datum (reuses .strip-sans sizing) */
   .strip-sans .big { font-family:var(--font-mono); font-feature-settings:"ss03" 1,"ss05" 1; font-weight:500; font-size:1.35em; color:var(--violet); letter-spacing:-.01em; }
-
-  /* ============================================================
-     NO-JS FALLBACK — the cortex.product.ai/share route serves with
-     Content-Security-Policy: sandbox, which BLOCKS all JavaScript.
-     Without JS the interactive deck can't scale or paginate, so we
-     degrade to a scrollable stack of all slides, each zoomed to fit
-     the viewport width. When JS runs it removes .nojs (see script)
-     and the normal interactive deck takes over.
-     --fit ≈ viewport-width / 1920, stepped (CSS can't derive it live).
-     ============================================================ */
+  /* ===== NO-JS FALLBACK (sandboxed / script-blocked hosts) ===== */
   html.nojs, html.nojs body { overflow: auto !important; height: auto !important; }
-  html.nojs .stage {
-    position: static !important;
-    transform: none !important;
-    top: auto; left: auto;
-    width: 100%;
-    height: auto;
-  }
+  html.nojs .stage { position: static !important; transform: none !important; top:auto; left:auto; width:100%; height:auto; counter-reset: slideno; }
   html.nojs .slide {
-    position: relative !important;
-    display: flex !important;
-    height: auto !important;
-    min-height: 0 !important;
+    position: relative !important; display: flex !important;
+    height: auto !important; min-height: 0 !important;
     padding: 110px 96px !important;
-    zoom: var(--fit, 0.66);
-    margin: 0 auto;
-    border-bottom: 1px solid #1a1a1a;
+    zoom: var(--fit, 0.66); margin: 0 auto; border-bottom: 1px solid #1a1a1a;
+    counter-increment: slideno;
   }
   html.nojs .slide.imgslide { padding: 64px 96px !important; }
   html.nojs .body { flex: 0 0 auto !important; }
   html.nojs .hud { display: none !important; }
-
-  /* static per-slide numbers (the JS counter can't run under sandbox) */
-  html.nojs .stage { counter-reset: slideno; }
-  html.nojs .slide { counter-increment: slideno; }
   html.nojs .slide::after {
-    content: counter(slideno, decimal-leading-zero) " / 09";
-    position: absolute;
-    bottom: 44px;
-    right: 56px;
-    font-family: var(--font-mono);
-    font-feature-settings: "ss03" 1, "ss05" 1;
-    font-weight: 400;
-    font-size: 22px;
-    letter-spacing: 0.12em;
-    color: var(--zinc-450);
-    z-index: 5;
+    content: counter(slideno, decimal-leading-zero) " / 11";
+    position: absolute; bottom: 44px; right: 56px;
+    font-family: var(--font-mono); font-feature-settings:"ss03" 1,"ss05" 1;
+    font-weight:400; font-size:22px; letter-spacing:0.12em; color: var(--zinc-450); z-index:5;
   }
-
   :root { --fit: 1; }
-  @media (max-width: 1919px) { :root { --fit: 0.92; } }
-  @media (max-width: 1600px) { :root { --fit: 0.80; } }
-  @media (max-width: 1440px) { :root { --fit: 0.72; } }
-  @media (max-width: 1280px) { :root { --fit: 0.64; } }
-  @media (max-width: 1120px) { :root { --fit: 0.56; } }
-  @media (max-width: 1000px) { :root { --fit: 0.50; } }
-  @media (max-width: 900px)  { :root { --fit: 0.45; } }
-  @media (max-width: 800px)  { :root { --fit: 0.40; } }
-  @media (max-width: 720px)  { :root { --fit: 0.36; } }
-  @media (max-width: 640px)  { :root { --fit: 0.32; } }
-  @media (max-width: 560px)  { :root { --fit: 0.28; } }
-  @media (max-width: 480px)  { :root { --fit: 0.235; } }
-  @media (max-width: 420px)  { :root { --fit: 0.205; } }
-  @media (max-width: 380px)  { :root { --fit: 0.185; } }
+  @media (max-width:1919px){:root{--fit:0.92}}
+  @media (max-width:1600px){:root{--fit:0.80}}
+  @media (max-width:1440px){:root{--fit:0.72}}
+  @media (max-width:1280px){:root{--fit:0.64}}
+  @media (max-width:1120px){:root{--fit:0.56}}
+  @media (max-width:1000px){:root{--fit:0.50}}
+  @media (max-width:900px){:root{--fit:0.45}}
+  @media (max-width:800px){:root{--fit:0.40}}
+  @media (max-width:720px){:root{--fit:0.36}}
+  @media (max-width:640px){:root{--fit:0.32}}
+  @media (max-width:560px){:root{--fit:0.28}}
+  @media (max-width:480px){:root{--fit:0.235}}
+  @media (max-width:420px){:root{--fit:0.205}}
+  @media (max-width:380px){:root{--fit:0.185}}
 </style>
 </head>
 <body>
@@ -979,11 +950,12 @@
 
 
   <!-- ════════════════════════════════════════════════════════════
-       SLIDE 1 — INTRO (carries the spine, type-only)
-       Follows the GH005 cover. The thesis rendered graphically as
-       an editorial definition pair: SEO (the old world) dimmed,
-       AEO (the new world) lit — the shift IS the graphic.
-       No octa field, no glow. Pure typography.
+       SLIDE 2 — INTRO (carries the spine, type-only)
+       Follows the GH005 cover (slide 1 — up through the open).
+       Up at Q1 ("what actually changed?"). The thesis rendered
+       graphically as an editorial definition pair: SEO (the old
+       world) dimmed, AEO (the new world) lit — the shift IS the
+       graphic. No octa field, no glow. Pure typography.
        ════════════════════════════════════════════════════════════ -->
   <section class="slide intro" role="region" aria-label="Intro — The new physics of brand visibility, SEO versus AEO">
     <div class="intro-wrap">
@@ -1013,8 +985,9 @@
   </section>
 
   <!-- ════════════════════════════════════════════════════════════
-       SLIDE 2 — THE PHYSICS, MECHANISM-FIRST
-       Up for Q2 (the mechanism question).
+       SLIDE 3 — THE PHYSICS, MECHANISM-FIRST
+       Advance mid-Q1 as the mechanics land (crawler army ranking
+       pages vs pattern machine lifting passages).
        ════════════════════════════════════════════════════════════ -->
   <section class="slide" role="region" aria-label="The physics — Google ranks pages, AI retrieves passages">
     <div class="corner-mark" aria-hidden="true">
@@ -1050,10 +1023,10 @@
   </section>
 
   <!-- ════════════════════════════════════════════════════════════
-       SLIDE 3 — THE TWO GATES
-       Up at Q3 (the two gates), holds through Q4 (the collision
-       story) + Q5 (authority files / the literal fix). Deck goes
-       DOWN when Tess tees Demo A at Q6 ("show us — live").
+       SLIDE 4 — THE TWO GATES
+       Up at Q2 (the two gates); holds through Q3 (human terms),
+       Q4 (the collision story), Q5 (authority files / the fix),
+       and Q6 (the profile-stake question). No demo, no deck-down.
        ════════════════════════════════════════════════════════════ -->
   <section class="slide" role="region" aria-label="The two gates — entity and content, multiplicative">
     <div class="corner-mark" aria-hidden="true">
@@ -1084,16 +1057,15 @@
           </ul>
         </div>
       </div>
-      <div class="strip-sans">Fail either gate and you get zero &mdash; most builders polish Gate 2 while still locked out of Gate 1.</div>
     </div>
-    <footer class="takehome"><p>Press without entity is <span class="em">noise</span>. Entity without press is <span class="em">silence</span>. You need both &mdash; in that order.</p></footer>
+    <footer class="takehome"><p>Press without entity is <span class="em">noise</span>. Entity without press is <span class="em">silence</span>.</p></footer>
   </section>
 
   <!-- ════════════════════════════════════════════════════════════
-       SLIDE 4 — THE REAL ONES (proof)
-       Up at Q7 (the re-seat after Demo A): Product Hunt, Trustpilot,
-       and the promo-code study — audit-then-act from our own shop.
-       The stats back the study; the stories are spoken.
+       SLIDE 5 — THE REAL ONES (proof)
+       Up at Q7 (the data study → the room's own move: publish one
+       true number) and holds through Q8 (the stops). The stats
+       back the study; the stories are spoken.
        ════════════════════════════════════════════════════════════ -->
   <section class="slide" role="region" aria-label="The real examples — brand mentions are the new backlinks">
     <div class="corner-mark" aria-hidden="true">
@@ -1119,10 +1091,57 @@
   </section>
 
   <!-- ════════════════════════════════════════════════════════════
-       SLIDE 5 — THE THREE BOT CLASSES
-       Up when Tess tees Demo B at Q8 (the robots.txt hands →
-       the Forbes vs product.ai compare), DOWN for the screenshare,
-       back up — holds through Q9 (measurement) + Q10 (stops).
+       SLIDE 6 — THE STOPS (new, v4)
+       Up at Q8 ("what should people stop spending money on?").
+       Three stops + the meta-stop; the fake-experts zero is the
+       lit card. Built in David's card idiom, 2026-07-07.
+       ════════════════════════════════════════════════════════════ -->
+  <section class="slide" role="region" aria-label="The stops — what to stop spending money on">
+    <div class="corner-mark" aria-hidden="true">
+      <svg viewBox="0 0 351 351" xmlns="http://www.w3.org/2000/svg">
+        <path d="M347.47 167.69L182.94 3.16C180.9 1.12 178.19 0 175.31 0C172.43 0 169.72 1.12 167.68 3.16L3.16 167.69C1.12 169.73 0 172.44 0 175.32C0 178.2 1.12 180.91 3.16 182.95L167.69 347.48C169.73 349.52 172.44 350.64 175.32 350.64C178.2 350.64 180.91 349.52 182.95 347.48L347.48 182.95C349.52 180.91 350.64 178.2 350.64 175.32C350.64 172.44 349.52 169.73 347.48 167.69H347.47ZM300.95 198.95L184.11 315.79V237.9L300.95 198.95ZM313.07 173.57L181.46 217.44V129.7L313.07 173.57ZM181.46 115.34V32.19L306.19 156.92L181.46 115.34ZM166.52 237.9V315.79L49.68 198.95L166.52 237.9ZM169.17 129.7V217.44L37.56 173.57L169.17 129.7ZM169.17 32.19V115.35L44.44 156.93L169.17 32.2V32.19Z" fill="#FAFAFA"/>
+      </svg>
+    </div>
+    <header class="header"><div class="eyebrow"><span class="diamond" aria-hidden="true"></span>Save your money</div><h2 class="hero">Three things to stop buying.</h2></header>
+    <div class="body">
+      <div class="ccgrid3">
+        <div class="cc">
+          <div class="cc-label">01 &middot; The old scoreboard</div>
+          <div class="cc-head">The number isn&rsquo;t the work.</div>
+          <ul class="cc-list">
+            <li>Chasing the DA <em>score</em> &mdash; the number, not the work</li>
+            <li>llms.txt files &mdash; no measured effect</li>
+          </ul>
+        </div>
+        <div class="cc lit">
+          <div class="cc-label">02 &middot; Press before entity</div>
+          <div class="cc-head">Noise without a name.</div>
+          <ul class="cc-list">
+            <li>11 fake experts &middot; 600+ real articles</li>
+            <li><em>Zero</em> recommendations &mdash; across 9 models</li>
+            <li>You can&rsquo;t trick it. You can only show it.</li>
+          </ul>
+        </div>
+        <div class="cc">
+          <div class="cc-label">03 &middot; Black boxes</div>
+          <div class="cc-head">Confidence isn&rsquo;t proof.</div>
+          <ul class="cc-list">
+            <li>$50K agencies &middot; $400 dashboards</li>
+            <li>&ldquo;Ask for their validation data&rdquo;</li>
+            <li>Most can&rsquo;t show it &mdash; go human</li>
+          </ul>
+        </div>
+      </div>
+      <div class="strip-sans">The meta-stop: <span class="big">stop looking for a trick</span> &mdash; the gameable era is the one that just ended.</div>
+    </div>
+    <footer class="takehome"><p>Nobody&rsquo;s a ten-year expert in a <span class="em">two-year-old field</span>.</p></footer>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       SLIDE 7 — THE THREE BOT CLASSES
+       Up at Q9 ("what's actually hitting my site?") — the three
+       classes, the two clocks, the log line. No screenshare: the
+       Forbes compare is spoken. Doubles as the floor-Q&A jump-back.
        ════════════════════════════════════════════════════════════ -->
   <section class="slide" role="region" aria-label="The three bot classes — training, search index, user fetch">
     <div class="corner-mark" aria-hidden="true">
@@ -1167,10 +1186,11 @@
   </section>
 
   <!-- ════════════════════════════════════════════════════════════
-       SLIDE 6 — FOLLOW THE SIGNAL (who to follow)
-       Up at Q11 (the "which humans?" re-seat after the stops) —
-       the photographable slide: every name on it publishes data
-       and methodology; several of tonight's stats came from them.
+       SLIDE 8 — FOLLOW THE SIGNAL (who to follow)
+       Up at Q10 ("which humans cut the noise?") — the photographable
+       slide. Hands to the Monday-3 slide at Q11.
+       Every name publishes data + methodology; several of tonight's
+       stats came from someone on this screen.
        ════════════════════════════════════════════════════════════ -->
   <section class="slide" role="region" aria-label="Follow the signal — the people who publish the data">
     <div class="corner-mark" aria-hidden="true">
@@ -1178,7 +1198,7 @@
         <path d="M347.47 167.69L182.94 3.16C180.9 1.12 178.19 0 175.31 0C172.43 0 169.72 1.12 167.68 3.16L3.16 167.69C1.12 169.73 0 172.44 0 175.32C0 178.2 1.12 180.91 3.16 182.95L167.69 347.48C169.73 349.52 172.44 350.64 175.32 350.64C178.2 350.64 180.91 349.52 182.95 347.48L347.48 182.95C349.52 180.91 350.64 178.2 350.64 175.32C350.64 172.44 349.52 169.73 347.48 167.69H347.47ZM300.95 198.95L184.11 315.79V237.9L300.95 198.95ZM313.07 173.57L181.46 217.44V129.7L313.07 173.57ZM181.46 115.34V32.19L306.19 156.92L181.46 115.34ZM166.52 237.9V315.79L49.68 198.95L166.52 237.9ZM169.17 129.7V217.44L37.56 173.57L169.17 129.7ZM169.17 32.19V115.35L44.44 156.93L169.17 32.2V32.19Z" fill="#FAFAFA"/>
       </svg>
     </div>
-    <header class="header"><div class="eyebrow"><span class="diamond" aria-hidden="true"></span>Cut the noise &middot; who to follow</div><h2 class="hero">You&rsquo;ve already met these people.</h2></header>
+    <header class="header"><div class="eyebrow"><span class="diamond" aria-hidden="true"></span>Cut the noise &middot; who to follow</div><h2 class="hero">AEO experts worth following.</h2></header>
     <div class="body">
       <div class="ccgrid3">
         <div class="cc lit">
@@ -1211,13 +1231,61 @@
       </div>
       <div class="strip-sans">Round out: Kevin Indig (Growth Memo) &middot; Lily Ray (Amsive) &middot; Ethan Smith (Graphite) &middot; Search Engine Land &middot; the Ahrefs team &mdash; Ryan Law + Tim Soulo &mdash; controlled studies behind several of tonight&rsquo;s numbers.</div>
     </div>
-    <footer class="takehome"><p>Signal publishes <span class="em">the data</span>. Noise publishes the promise.</p></footer>
   </section>
 
   <!-- ════════════════════════════════════════════════════════════
-       SLIDE 7 — THE FREE AUDIT + CLOSE
-       Up at Q12 (the Monday four — step one IS this audit) and
-       holds through Q13 and the floor Q&A — the takeaway + thesis.
+       SLIDE 9 — THE MONDAY-3 (new, v4)
+       Up at Q11 (the Monday-morning three, entity-backwards) and
+       holds through Q12 — the wells are named on move 01, so the
+       "where do I literally go" answer points at the lit card.
+       Built in David's card idiom, 2026-07-07.
+       ════════════════════════════════════════════════════════════ -->
+  <section class="slide" role="region" aria-label="The Monday three — lock it, say it, earn it">
+    <div class="corner-mark" aria-hidden="true">
+      <svg viewBox="0 0 351 351" xmlns="http://www.w3.org/2000/svg">
+        <path d="M347.47 167.69L182.94 3.16C180.9 1.12 178.19 0 175.31 0C172.43 0 169.72 1.12 167.68 3.16L3.16 167.69C1.12 169.73 0 172.44 0 175.32C0 178.2 1.12 180.91 3.16 182.95L167.69 347.48C169.73 349.52 172.44 350.64 175.32 350.64C178.2 350.64 180.91 349.52 182.95 347.48L347.48 182.95C349.52 180.91 350.64 178.2 350.64 175.32C350.64 172.44 349.52 169.73 347.48 167.69H347.47ZM300.95 198.95L184.11 315.79V237.9L300.95 198.95ZM313.07 173.57L181.46 217.44V129.7L313.07 173.57ZM181.46 115.34V32.19L306.19 156.92L181.46 115.34ZM166.52 237.9V315.79L49.68 198.95L166.52 237.9ZM169.17 129.7V217.44L37.56 173.57L169.17 129.7ZM169.17 32.19V115.35L44.44 156.93L169.17 32.2V32.19Z" fill="#FAFAFA"/>
+      </svg>
+    </div>
+    <header class="header"><div class="eyebrow"><span class="diamond" aria-hidden="true"></span>Monday morning</div><h2 class="hero">Three moves. Audit first.</h2></header>
+    <div class="body">
+      <div class="ccgrid3">
+        <div class="cc lit">
+          <div class="cc-label">01 &middot; Lock your entity</div>
+          <div class="cc-head">Teach it who you are.</div>
+          <ul class="cc-list">
+            <li>Wikidata + your field&rsquo;s wells</li>
+            <li class="mono">GitHub &middot; Product Hunt &middot; Crunchbase &middot; LinkedIn &middot; G2</li>
+            <li>Name, description, links &mdash; identical everywhere</li>
+          </ul>
+        </div>
+        <div class="cc">
+          <div class="cc-label">02 &middot; Make your site agree</div>
+          <div class="cc-head">One story, everywhere.</div>
+          <ul class="cc-list">
+            <li>Homepage + About tell the same story</li>
+            <li>A visible FAQ &mdash; answer the questions before people ask them</li>
+          </ul>
+        </div>
+        <div class="cc">
+          <div class="cc-label">03 &middot; Earn real mentions</div>
+          <div class="cc-head">Get others writing about you.</div>
+          <ul class="cc-list">
+            <li>A few mentions on sites your customers already read</li>
+            <li>Sharing a number from your own data is the fastest way in</li>
+          </ul>
+        </div>
+      </div>
+      <div class="strip-sans">Step zero, before you touch anything: <span class="big">run the free audit</span> &mdash; instrument first. The how is next.</div>
+    </div>
+    <footer class="takehome"><p>No single page is the needle &mdash; <span class="em">the consistency is</span>.</p></footer>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       SLIDE 10 — THE FREE AUDIT + CLOSE
+       Up at Q13 (the spoken walkthrough — no screen; the sheet is
+       described, the robots.txt line is the callback coda) and
+       holds through Q14 — this slide's takehome IS the landing.
+       Slide 11 (Join the Mission, QR) fires at Tess's close.
        ════════════════════════════════════════════════════════════ -->
   <section class="slide" role="region" aria-label="The free audit and close — run it tonight">
     <div class="corner-mark" aria-hidden="true">
@@ -1260,13 +1328,10 @@
 
 </div>
 
-<div class="hud mono" id="hud" aria-hidden="true">1 / 7</div>
+<div class="hud mono" id="hud" aria-hidden="true">1 / 11</div>
 
 <script>
   (function () {
-    // Scripts run here → switch out of the no-JS stacked fallback into the
-    // interactive single-slide deck. (On the sandboxed cortex.product.ai/share
-    // route, JS is blocked, so .nojs stays and the CSS fallback renders.)
     document.documentElement.classList.remove('nojs');
     var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
     var hud = document.getElementById('hud');
@@ -1304,5 +1369,5 @@
   })();
 </script>
 
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a17a023dfdc250a1',t:'MTc4MzQ2MDQzOA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
